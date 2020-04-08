@@ -1,10 +1,10 @@
-import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.*;
 
 public class Cannon extends CannonGame {
 
-    double rotation = 4;
-    double strength = 0;
+    //Variables del cañon
+    double rotation = 5;
+    double strength = 21;
     Image cannon;
     Image base_cannon;
 
@@ -13,6 +13,7 @@ public class Cannon extends CannonGame {
 
         Input input = gameContainer.getInput();
 
+        //Keys de angulo y fuerza
         if (input.isKeyDown(Input.KEY_DOWN)) {
             if (cannon.getRotation() * -1 > 5) {
                 cannon.rotate(2);
@@ -20,21 +21,26 @@ public class Cannon extends CannonGame {
             }
         }
         if (input.isKeyDown(Input.KEY_UP)) {
-            if (cannon.getRotation() * -1 < 90) {
+            if (cannon.getRotation() * -1 < 80) {
                 cannon.rotate(-2);
                 rotation = cannon.getRotation() * -1;
             }
         }
 
         if (input.isKeyDown(Input.KEY_RIGHT)){
-            if (strength < 100){
+            if (strength < 120){
                 strength++;
             }
         }
         if (input.isKeyDown(Input.KEY_LEFT)){
-            if (strength > 0) {
+            if (strength > 20) {
                 strength--;
             }
+        }
+
+        //Disparar bola
+        if (input.isKeyDown(Input.KEY_SPACE)) {
+            fire(ball);
         }
 
     }
@@ -42,21 +48,27 @@ public class Cannon extends CannonGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
+        //Cargamos imagenes y los dibujamos
         cannon = ResourceManager.getImage("resources/cannon.png");
         base_cannon = ResourceManager.getImage("resources/cannon_base.png");
-        graphics.drawImage(cannon, 25, gameContainer.getHeight() - 150);
-        graphics.drawImage(base_cannon, 25, gameContainer.getHeight() - 120);
+        graphics.drawImage(cannon, 25, 450);
+        graphics.drawImage(base_cannon, 25, 480);
+        //Indicamos el centro de rotación
         cannon.setCenterOfRotation(35, 35);
 
     }
 
-    void fire(){}
+    //Disparo
+    void fire(Ball ball){
+        ball.setFire();
+    }
 
-    void updateRotation(double deltaRotation){}
+    void updateRotation(double deltaRotation){
+        cannon.setRotation(45);}
 
     void updateStrength(double deltaStrength){}
 
-    double getRotation(){return 0;}
+    double getRotation(){return this.rotation;}
 
-    double getStrength(){return 0;}
+    double getStrength(){return this.strength;}
 }
